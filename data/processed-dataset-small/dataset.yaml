@@ -1,9 +1,0 @@
-# YOLOv5 dataset configuration
-path: /Users/zane/Desktop/5330/Lab3/LEGO-time/data/processed-dataset-small
-train: train/images
-val: val/images
-test: test/images
-
-# Classes
-nc: 1
-names: ['lego']
