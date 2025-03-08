@@ -99,9 +99,11 @@ Despite the impressive performance, several limitations should be acknowledged:
 
 1. **Computation requirements**: The larger model demands significantly more computational power. On my laptop, the YOLOv5s model's inference time was over three times slower than the lightweight YOLOv5n model, even running on cluster. This presents a real trade-off between detection accuracy and processing speed that must be considered for any practical application.
 
-2. **Overlapping LEGO detection**: While testing my model on various examples, I noticed it sometimes struggles with overlapping LEGO pieces. When bricks are stacked or partially covering each other, the model occasionally merges them into a single detection or misses the partially hidden pieces altogether. This isn't surprising since the YOLOv5 architecture uses Non-Maximum Suppression to eliminate duplicate detections, which can inadvertently merge overlapping objects. The synthetic training data also might not include enough examples of complex overlapping arrangements.\
+2. **Overlapping LEGO detection**: While testing my model on various examples, I noticed it sometimes struggles with overlapping LEGO pieces. When bricks are stacked or partially covering each other, the model occasionally merges them into a single detection or misses the partially hidden pieces altogether. This isn't surprising since the YOLOv5 architecture uses Non-Maximum Suppression to eliminate duplicate detections, which can inadvertently merge overlapping objects. The synthetic training data also might not include enough examples of complex overlapping arrangements.
 
-![overlapping](report_pics/image.webp)
+<p align="center" width="100%">
+    <img width="33%" src=report_pics/image.webp>
+</p>
 
 3. **Synthetic-to-real domain gap**: Since the model was trained exclusively on synthetic images, its performance might degrade when applied to real-world photographs of LEGO pieces with variable lighting conditions, backgrounds, and camera angles. This potential domain shift could affect the model's generalization ability.
 
@@ -121,15 +123,11 @@ The main shortcomings are the computational demands of the larger model and the 
 
 Several promising areas for future research include:
 
-1. **Instance segmentation approaches**: Implementing Mask R-CNN or YOLO-v8 with segmentation heads could better handle overlapping LEGO pieces by providing pixel-level predictions instead of just bounding boxes.
+1. **Real-world domain adaptation**: Investigating methods to adapt the model trained on synthetic data to perform well on real-world photographs, possibly using techniques like domain randomization or adversarial training.
 
-2. **Few-shot learning for rare pieces**: Developing techniques to identify uncommon LEGO pieces with minimal training examples would be valuable for comprehensive LEGO set analysis.
+2. **Multi-class detection**: Extending the model to identify specific LEGO piece types, colors, and orientations would enable more advanced applications like automated building instruction validation.
 
-3. **Real-world domain adaptation**: Investigating methods to adapt the model trained on synthetic data to perform well on real-world photographs, possibly using techniques like domain randomization or adversarial training.
-
-4. **Multi-class detection**: Extending the model to identify specific LEGO piece types, colors, and orientations would enable more advanced applications like automated building instruction validation.
-
-5. **Lightweight model optimization**: Exploring model compression techniques such as pruning, quantization, and knowledge distillation to make the high-performing model more suitable for edge devices and real-time applications.
+3. **Lightweight model optimization**: Exploring model compression techniques such as pruning, quantization, and knowledge distillation to make the high-performing model more suitable for edge devices and real-time applications.
 
 
 ## References
