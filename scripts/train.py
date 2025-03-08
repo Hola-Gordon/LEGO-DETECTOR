@@ -3,6 +3,7 @@ import yaml
 import argparse
 from ultralytics import YOLO
 
+
 def train_model(data_yaml, model_type='yolov5n', epochs=10, img_size=640, batch_size=16, 
                 project='runs/train', name='lego_detector', device=''):
     """Train a YOLOv5 model on the LEGO dataset"""
@@ -34,6 +35,7 @@ def train_model(data_yaml, model_type='yolov5n', epochs=10, img_size=640, batch_
     
     print(f"Training complete. Model saved to {os.path.join(project, name)}")
     return os.path.join(project, name, 'weights', 'best.pt')
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train LEGO detector using YOLOv5")

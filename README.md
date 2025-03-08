@@ -1,111 +1,116 @@
 # LEGO Piece Detector
 
-This project implements an object detection system for LEGO pieces using YOLOv5. The system detects and counts LEGO pieces in images regardless of color or type.
+This repository contains code for training and deploying a LEGO piece detection model using YOLOv5. The model can identify and count LEGO pieces in images with high accuracy.
 
-## Project Structure
+## Project Overview
+
+- **Task**: Detect and count LEGO pieces in images using bounding boxes
+- **Architecture**: YOLOv5 (nano and small variants)
+- **Performance**: 98% mAP@0.5 on the 5,000-image dataset
+
+## Repository Structure
 
 ```
 LEGO-DETECTOR/
-├── data/
-│   ├── lego_dataset_500/    # Small dataset for testing
-│   ├── lego_dataset_3000/   # Larger dataset for full training
-│   └── original/            # Original full dataset
-├── models/                  # Trained model weights
-├── scripts/
-│   ├── local_dataset_prep.py  # Script for processing dataset locally
-│   ├── prepare_data.py        # Data preparation and validation
-│   ├── train.py               # Training script
-│   ├── evaluate.py            # Evaluation script
-│   ├── predict.py             # Prediction script
+├── checks/                    # Directory for annotation check results
+├── data/                      # Dataset directories
+│   ├── lego_dataset_500/      # 500-image dataset
+│   ├── lego_dataset_5000/     # 5000-image dataset
+│   └── original/              # Original dataset
+├── example_images/            # Example images for the Gradio app
+├── results/                   # Output directory for detection visualizations
+├── runs/                      # Training runs and results
+│   ├── detect/                # Detection results
+│   └── train/                 # Training results
+│       ├── lego_detector_500/ # 500-image model
+│       └── lego_detector_5000/# 5000-image model
+├── scripts/                   # Python scripts
+│   ├── app.py                 # Gradio web interface
+│   ├── evaluate.py            # Model evaluation
+│   ├── local_dataset_prep.py  # Dataset preparation
+│   ├── predict.py             # Run predictions
+│   ├── prepare_data.py        # Data preprocessing
+│   ├── prepare_examples.py    # Prepare example images
 │   ├── quick_test.py          # Quick model testing
-│   └── app.py                 # Gradio web interface
-└── requirements.txt         # Package dependencies
+│   └── train.py               # Model training
+├── check_yolo_annotations.py  # Script for validating annotations
+└── README.md                  # Project documentation
 ```
 
-## Installation
+## Setup and Installation
 
 1. Clone this repository:
-```
+```bash
 git clone https://github.com/yourusername/LEGO-DETECTOR.git
 cd LEGO-DETECTOR
 ```
 
-2. Install dependencies:
-```
+2. Install the required dependencies:
+```bash
 pip install -r requirements.txt
 ```
 
-## Workflow
+## Dataset Preparation
 
-### 1. Data Preparation
-
-First, prepare a smaller dataset to work with:
+Use the `prepare_data.py` script to prepare the dataset:
 
 ```bash
-# On your local machine:
-python scripts/local_dataset_prep.py --source data/original --target data/lego_dataset_500 --samples 500
+python scripts/prepare_data.py --dataset_path path/to/dataset --output_dir data/lego_dataset_500 --max_samples 500
 ```
 
-Or if you're working directly with the full dataset on a cluster:
+## Training
+
+Train a YOLOv5 model using the `train.py` script:
 
 ```bash
-python scripts/prepare_data.py --dataset_path data/original --output_dir data/lego_dataset_3000 --max_samples 3000
+python scripts/train.py --data data/lego_dataset_500/data.yaml --model yolov5n --epochs 50
 ```
 
-### 2. Training
+## Evaluation
 
-Train the model using the prepared dataset:
+Evaluate a trained model on the validation set:
 
 ```bash
-python scripts/train.py --data data/lego_dataset_500/data.yaml --model yolov5n --epochs 10 --img-size 640 --batch-size 16
+python scripts/evaluate.py --model runs/train/lego_detector_500/weights/best.pt --data data/lego_dataset_500/data.yaml
 ```
 
-For smaller machines or faster training, use:
-```bash
-python scripts/train.py --data data/lego_dataset_500/data.yaml --model yolov5n --epochs 5 --img-size 320 --batch-size 8
-```
-
-### 3. Evaluation
-
-Evaluate the trained model:
-
-```bash
-python scripts/evaluate.py --model runs/train/lego_detector/weights/best.pt --data data/lego_dataset_500/data.yaml
-```
-
-### 4. Prediction
+## Running Predictions
 
 Run predictions on new images:
 
 ```bash
-python scripts/predict.py --model runs/train/lego_detector/weights/best.pt --img test_images/ --output results
+python scripts/predict.py --model runs/train/lego_detector_500/weights/best.pt --img path/to/image.jpg
 ```
 
-### 5. Quick Testing
+## Web Interface
 
-For a quick test of the model:
+Launch the Gradio web interface:
 
 ```bash
-python scripts/quick_test.py --model runs/train/lego_detector/weights/best.pt --img test_images/sample.jpg --save-dir results
-```
+# Launch from project root directory 
+python scripts/app.py
 
-### 6. Interactive Demo
 
-Launch a Gradio web interface for interactive testing:
 
-```bash
-python scripts/app.py --model_path runs/train/lego_detector/weights/best.pt --share
-```
+## Model Performance
 
-## Notes on Model Performance
+Two YOLOv5 models were trained and evaluated:
 
-- The YOLOv5n (nano) model is the smallest and fastest but may have lower accuracy
-- For better accuracy but slower inference, use YOLOv5s or YOLOv5m
-- Reducing image size speeds up training but may reduce accuracy
-- The confidence threshold controls detection sensitivity (lower = more detections)
+### YOLOv5n (500-image dataset)
+- **mAP@0.5**: 0.933
+- **mAP@0.5-0.95**: 0.796
+- **Precision**: 0.894
+- **Recall**: 0.900
+- **Inference time**: ~69ms per image (on Apple M1)
 
-## Requirements
+### YOLOv5s (5000-image dataset)
+- **mAP@0.5**: 0.980
+- **mAP@0.5-0.95**: 0.938
+- **Precision**: 0.978
+- **Recall**: 0.957
+- **Inference time**: ~231ms per image (on Apple M1)
 
-- Python 3.8+
-- CUDA-compatible GPU recommended for training
-- See requirements.txt for package dependencies
+## Acknowledgments
+
+- The YOLOv5 implementation is based on [Ultralytics YOLOv5](https://github.com/ultralytics/yolov5)
+- Dataset provided as part of the course assignment

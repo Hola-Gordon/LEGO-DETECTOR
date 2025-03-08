@@ -7,7 +7,7 @@ from PIL import Image
 import time
 import glob
 
-# Global model variable
+# Global variable to store the loaded model
 model = None
 
 def load_model(model_path):
@@ -70,7 +70,12 @@ def create_demo(model_path):
         return None
     
     # Get example images from the example_images directory
-    example_files = sorted(glob.glob("example_images/*"))
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+    example_dir = os.path.join(project_root, "example_images")
+    
+    # Get all example image files
+    example_files = sorted(glob.glob(os.path.join(example_dir, "*")))
     # Create examples list with default confidence value
     examples = [[file, 0.25] for file in example_files]
     
@@ -92,14 +97,19 @@ def create_demo(model_path):
     return demo
 
 if __name__ == "__main__":
+    # Get the directory where this script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+    best_model_path = os.path.join(project_root, "runs/train/lego_detector_5000/weights/best.pt")
+    example_dir = os.path.join(project_root, "example_images")
+    
     parser = argparse.ArgumentParser(description="Run LEGO detector with Gradio interface")
-    parser.add_argument("--model_path", type=str, required=True, help="Path to model checkpoint")
     parser.add_argument("--share", action="store_true", help="Create a publicly shareable link")
     
     args = parser.parse_args()
     
-    demo = create_demo(args.model_path)
+    demo = create_demo(best_model_path)
     if demo:
-        demo.launch(share=args.share)
+        demo.launch(share=args.share, allowed_paths=[example_dir])
     else:
-        print("Failed to create demo. Please check the model path.")
+        print(f"Failed to create demo. Model not found at {best_model_path}")

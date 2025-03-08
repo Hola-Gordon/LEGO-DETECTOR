@@ -6,6 +6,7 @@ from pathlib import Path
 import cv2
 from tqdm import tqdm
 
+
 def check_annotation(xml_path):
     """Verify if the XML annotation file is valid."""
     try:
@@ -52,6 +53,7 @@ def check_annotation(xml_path):
         print(f"Error checking annotation {xml_path}: {e}")
         return False
 
+
 def convert_to_yolo_format(xml_path, output_path, img_width, img_height):
     """Convert VOC XML annotation to YOLO format."""
     tree = ET.parse(xml_path)
@@ -75,6 +77,7 @@ def convert_to_yolo_format(xml_path, output_path, img_width, img_height):
             height = (ymax - ymin) / img_height
             
             f.write(f"{class_id} {x_center} {y_center} {width} {height}\n")
+
 
 def split_dataset(dataset_path, output_dir, train_ratio=0.7, val_ratio=0.15, test_ratio=0.15, max_samples=3000):
     """Split the dataset into training, validation and test sets in YOLO format."""

@@ -8,6 +8,7 @@ import numpy as np
 from tqdm import tqdm
 import zipfile
 
+
 def create_compact_dataset(source_dir, target_dir, sample_size=3000, seed=42, 
                           img_size=640, compress=True):
     """Create a compact dataset for upload to cluster"""
@@ -106,6 +107,7 @@ def create_compact_dataset(source_dir, target_dir, sample_size=3000, seed=42,
         
         print(f"ZIP archive created: {zip_path}")
 
+
 def process_sample(img_path, xml_path, target_dir, img_size):
     """Process a single sample: resize image and convert annotation to YOLO format"""
     base_name = os.path.splitext(os.path.basename(img_path))[0]
@@ -139,6 +141,7 @@ def process_sample(img_path, xml_path, target_dir, img_size):
             
             # Class is always 0 (lego)
             f.write(f"0 {x_center} {y_center} {bbox_width} {bbox_height}\n")
+
 
 if __name__ == "__main__":
     import argparse

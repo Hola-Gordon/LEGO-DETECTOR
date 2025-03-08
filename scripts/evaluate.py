@@ -20,9 +20,8 @@ def evaluate_model(model_path, data_yaml=None, img_dir=None, iou=0.5, conf=0.25)
         print(f"Evaluating model on dataset defined in {data_yaml}")
         results = model.val(data=data_yaml, iou=iou, conf=conf)
         
-
         try:
-            # Try using map50() method first (newer versions)
+            # Try using map50() method first
             if hasattr(results, 'map50') and callable(results.map50):
                 mAP50 = results.map50()
                 mAP50_95 = results.map()
@@ -89,6 +88,7 @@ def evaluate_model(model_path, data_yaml=None, img_dir=None, iou=0.5, conf=0.25)
         
         print(f"\nTotal objects detected: {total_objects}")
         print(f"Results saved to {results_dir}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Evaluate LEGO detector model")

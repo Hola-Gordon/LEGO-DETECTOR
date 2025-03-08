@@ -4,6 +4,7 @@ from ultralytics import YOLO
 from PIL import Image
 import glob
 
+
 def predict_images(model_path, img_path, output_dir='results', conf=0.25):
     """Run prediction on images and save results"""
     # Check if model exists

@@ -5,6 +5,7 @@ from PIL import Image
 import glob
 import time
 
+
 def quick_test(model_path, image_path, conf=0.25, save_dir=None):
     """Quickly test a model on a single image or directory"""
     # Validate paths
