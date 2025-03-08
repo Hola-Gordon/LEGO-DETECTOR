@@ -99,7 +99,8 @@ Despite the impressive performance, several limitations should be acknowledged:
 
 1. **Computation requirements**: The larger model demands significantly more computational power. On my laptop, the YOLOv5s model's inference time was over three times slower than the lightweight YOLOv5n model, even running on cluster. This presents a real trade-off between detection accuracy and processing speed that must be considered for any practical application.
 
-2. **Overlapping LEGO detection**: While testing my model on various examples, I noticed it sometimes struggles with overlapping LEGO pieces. When bricks are stacked or partially covering each other, the model occasionally merges them into a single detection or misses the partially hidden pieces altogether. This isn't surprising since the YOLOv5 architecture uses Non-Maximum Suppression to eliminate duplicate detections, which can inadvertently merge overlapping objects. The synthetic training data also might not include enough examples of complex overlapping arrangements.
+2. **Overlapping LEGO detection**: While testing my model on various examples, I noticed it sometimes struggles with overlapping LEGO pieces. When bricks are stacked or partially covering each other, the model occasionally merges them into a single detection or misses the partially hidden pieces altogether. This isn't surprising since the YOLOv5 architecture uses Non-Maximum Suppression to eliminate duplicate detections, which can inadvertently merge overlapping objects. The synthetic training data also might not include enough examples of complex overlapping arrangements.\
+
 ![overlapping](report_pics/image.webp)
 
 3. **Synthetic-to-real domain gap**: Since the model was trained exclusively on synthetic images, its performance might degrade when applied to real-world photographs of LEGO pieces with variable lighting conditions, backgrounds, and camera angles. This potential domain shift could affect the model's generalization ability.
@@ -132,9 +133,9 @@ Several promising areas for future research include:
 
 
 ## References
-[1] J. Redmon, Yolo: Real-time object detection, https://pjreddie.com/darknet/yolo/ (accessed Mar. 7, 2025). 
-[2] Anthropic, "Claude," Large language model, 2023. [Online]. Available: https://www.anthropic.com/
-[3] J. Redmon, Yolo: Real-time object detection, https://pjreddie.com/darknet/yolo/ (accessed Mar. 7, 2025). 
-[4] M. Everingham, L. Van Gool, C. K. Williams, J. Winn, and A. Zisserman, “The Pascal Visual Object Classes (VOC) challenge,” International Journal of Computer Vision, vol. 88, no. 2, pp. 303–338, Sep. 2009. doi:10.1007/s11263-009-0275-4 
-[5] J. Redmon, S. Divvala, R. Girshick, and A. Farhadi, “You only look once: Unified, real-time object detection,” 2016 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), pp. 779–788, Jun. 2016. doi:10.1109/cvpr.2016.91 
+[1] J. Redmon, Yolo: Real-time object detection, https://pjreddie.com/darknet/yolo/ (accessed Mar. 7, 2025).\
+[2] Anthropic, "Claude," Large language model, 2023. [Online]. Available: https://www.anthropic.com/ \
+[3] J. Redmon, Yolo: Real-time object detection, https://pjreddie.com/darknet/yolo/ (accessed Mar. 7, 2025).\
+[4] M. Everingham, L. Van Gool, C. K. Williams, J. Winn, and A. Zisserman, “The Pascal Visual Object Classes (VOC) challenge,” International Journal of Computer Vision, vol. 88, no. 2, pp. 303–338, Sep. 2009. doi:10.1007/s11263-009-0275-4\
+[5] J. Redmon, S. Divvala, R. Girshick, and A. Farhadi, “You only look once: Unified, real-time object detection,” 2016 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), pp. 779–788, Jun. 2016. doi:10.1109/cvpr.2016.91\
 [6] Ultralytics, Ultralytics YOLO Docs, https://docs.ultralytics.com/ (accessed Mar. 7, 2025). 
