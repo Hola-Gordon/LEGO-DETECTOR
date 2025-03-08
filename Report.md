@@ -19,7 +19,7 @@ The original dataset consisted of 168,000 synthetic images with annotations in P
 - A 5,000-image dataset for comprehensive training on Northeastern's computing cluster
 
 For each subset, I performed the following preprocessing steps:
-1. **Data validation**: Implemented validation checks for random pictures to ensure annotation quality
+1. **Data validation**: Implemented a script and manual checks for random pictures to ensure annotation quality
 2. **Data splitting**: Divided the data into training (~70%), validation (~15%), and testing (~15%) sets
 3. **Annotation conversion**: Transformed PASCAL VOC format annotations to YOLO format
 4. **Class simplification**: Consolidated all 600 LEGO piece classes into a single "lego" class

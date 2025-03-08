@@ -84,7 +84,7 @@ python scripts/predict.py --model runs/train/lego_detector_500/weights/best.pt -
 
 ## Web Interface
 
-Launch the Gradio web interface:
+Launch the Gradio web interface: https://huggingface.co/spaces/zanegu/LEGO_DETECTOR
 
 ```bash
 # Launch from project root directory 
