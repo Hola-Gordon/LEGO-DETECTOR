@@ -80,12 +80,15 @@ Both models demonstrated strong performance in detecting LEGO pieces, with the l
 - **mAP@0.5-0.95**: 0.796
 - **Precision**: 0.894
 - **Recall**: 0.900
+- **Inference time**: 69.0ms per image
+
 
 #### YOLOv5s (5000-image dataset):
 - **mAP@0.5**: 0.980
 - **mAP@0.5-0.95**: 0.938
 - **Precision**: 0.978
 - **Recall**: 0.957
+- **Inference time**: 231.2ms per image
 
 The results demonstrate that:
 1. Even the smaller YOLOv5n model achieved excellent performance with mAP@0.5 of 0.933
@@ -97,7 +100,7 @@ The interactive demo created with Gradio (implemented in `app.py`) provides a us
 ### Limitations
 Despite the impressive performance, several limitations should be acknowledged:
 
-1. **Computation requirements**: The larger model demands significantly more computational power. On my laptop, the YOLOv5s model's inference time was over three times slower than the lightweight YOLOv5n model, even running on cluster. This presents a real trade-off between detection accuracy and processing speed that must be considered for any practical application.
+1. **Computation requirements**: The larger model demands significantly more computational power. On my laptop, the YOLOv5s model's inference time was over three times slower than the lightweight YOLOv5n model. This presents a real trade-off between detection accuracy and processing speed that must be considered for any practical application.
 
 2. **Overlapping LEGO detection**: While testing my model on various examples, I noticed it sometimes struggles with overlapping LEGO pieces. When bricks are stacked or partially covering each other, the model occasionally merges them into a single detection or misses the partially hidden pieces altogether. This isn't surprising since the YOLOv5 architecture uses Non-Maximum Suppression to eliminate duplicate detections, which can inadvertently merge overlapping objects. The synthetic training data also might not include enough examples of complex overlapping arrangements.
 
