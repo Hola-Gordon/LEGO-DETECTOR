@@ -45,6 +45,24 @@ The training process implemented by `train.py` leverages transfer learning by st
 ### Evaluation Metrics
 To assess model performance, I used mean Average Precision (mAP) at an IoU threshold of 0.5, which is a standard metric for object detection tasks. The mAP metric quantifies both localization accuracy and classification confidence by computing the area under the precision-recall curve.
 
+The mAP@0.5 is calculated as follows:
+
+1. For each image, the model produces bounding box predictions with confidence scores
+2. Predictions are compared to ground truth using IoU (Intersection over Union):
+   
+   IoU = (Area of Overlap) / (Area of Union)
+
+3. A prediction is considered a true positive if IoU ≥ 0.5 and the confidence exceeds the threshold
+4. Precision (P) and Recall (R) are calculated at different confidence thresholds:
+   
+   P = TP / (TP + FP)
+   R = TP / (TP + FN)
+   
+   where TP = true positives, FP = false positives, FN = false negatives
+
+5. The precision-recall curve is plotted and the area under this curve gives the Average Precision (AP)
+6. mAP@0.5 is the mean of the AP values across all classes (in our case, just the single "lego" class)
+
 Additionally, I monitored:
 - **Precision**: The ratio of true positive detections to all positive detections
 - **Recall**: The ratio of true positive detections to all actual objects
@@ -80,17 +98,37 @@ The interactive demo created with Gradio (implemented in `app.py`) provides a us
 Despite the impressive performance, several limitations should be acknowledged:
 
 1. **Computation requirements**: The larger model demands significantly more computational power. On my laptop, the YOLOv5s model's inference time was over three times slower than the lightweight YOLOv5n model, even running on cluster. This presents a real trade-off between detection accuracy and processing speed that must be considered for any practical application.
+
 2. **Overlapping LEGO detection**: While testing my model on various examples, I noticed it sometimes struggles with overlapping LEGO pieces. When bricks are stacked or partially covering each other, the model occasionally merges them into a single detection or misses the partially hidden pieces altogether. This isn't surprising since the YOLOv5 architecture uses Non-Maximum Suppression to eliminate duplicate detections, which can inadvertently merge overlapping objects. The synthetic training data also might not include enough examples of complex overlapping arrangements.
 ![overlapping](report_pics/image.webp)
 
+3. **Synthetic-to-real domain gap**: Since the model was trained exclusively on synthetic images, its performance might degrade when applied to real-world photographs of LEGO pieces with variable lighting conditions, backgrounds, and camera angles. This potential domain shift could affect the model's generalization ability.
+
 ## Conclusion
 
-Here are key findings include:
+My key findings include:
 
 1. YOLOv5 architectures are highly effective for LEGO piece detection, with the best model achieving 98% mAP@0.5
 2. Larger datasets and models provide incremental improvements in detection accuracy, at the cost of increased computational requirements
 3. Even a small dataset of 500 images is sufficient to train a model with strong performance (93.3% mAP@0.5)
 
+The benefits of this work include the ability to quickly and accurately count LEGO pieces in complex arrangements, which could be useful for inventory management, automated sorting systems, or assisting in LEGO construction verification.
+
+The main shortcomings are the computational demands of the larger model and the challenges with detecting overlapping pieces, which limit certain real-world applications.
+
+### Future Research Directions
+
+Several promising areas for future research include:
+
+1. **Instance segmentation approaches**: Implementing Mask R-CNN or YOLO-v8 with segmentation heads could better handle overlapping LEGO pieces by providing pixel-level predictions instead of just bounding boxes.
+
+2. **Few-shot learning for rare pieces**: Developing techniques to identify uncommon LEGO pieces with minimal training examples would be valuable for comprehensive LEGO set analysis.
+
+3. **Real-world domain adaptation**: Investigating methods to adapt the model trained on synthetic data to perform well on real-world photographs, possibly using techniques like domain randomization or adversarial training.
+
+4. **Multi-class detection**: Extending the model to identify specific LEGO piece types, colors, and orientations would enable more advanced applications like automated building instruction validation.
+
+5. **Lightweight model optimization**: Exploring model compression techniques such as pruning, quantization, and knowledge distillation to make the high-performing model more suitable for edge devices and real-time applications.
 
 
 ## References
