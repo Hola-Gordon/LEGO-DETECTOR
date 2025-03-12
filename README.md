@@ -109,8 +109,3 @@ Two YOLOv5 models were trained and evaluated:
 - **Precision**: 0.978
 - **Recall**: 0.957
 - **Inference time**: ~231ms per image (on Apple M1)
-
-## Acknowledgments
-
-- The YOLOv5 implementation is based on [Ultralytics YOLOv5](https://github.com/ultralytics/yolov5)
-- Dataset provided as part of the course assignment
